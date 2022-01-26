@@ -1,7 +1,29 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 01/20/2022 08:50:37 PM
+-- Design Name: 
+-- Module Name: equalizing_tb - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use ieee.std_logic_unsigned.all;
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
@@ -11,20 +33,22 @@ use ieee.std_logic_unsigned.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity opt_imp_tb is
+entity equalizing_tb is
 --  Port ( );
-end opt_imp_tb;
+end equalizing_tb;
 
-architecture Behavioral of opt_imp_tb is
-component opt_imp is
-Port ( clk: in std_logic;
+architecture Behavioral of equalizing_tb is
+
+component equalizing_delays is
+    Port ( clk: in std_logic;
          rst: in std_logic;
          a: in std_logic_vector(7 downto 0):="00000001";
          P_0: in std_logic_vector(7 downto 0);
          P_1: in std_logic_vector(7 downto 0);
          P_f: out std_logic_vector(16 downto 0)
           );
-end component opt_imp;
+end component equalizing_delays;
+
 
 type data_array is array(0 to 119) of integer;
 
@@ -34,31 +58,66 @@ signal P_f_tb: std_logic_vector(16 downto 0);
 constant CLK_P: time:= 12.5ns;
 signal count, count_s: integer:=0;
 signal switch: std_logic:='0';
-begin
+signal flag: std_logic:='0';
+signal delay_count: integer:=0;
+signal delay_count_p1: integer:=0;
 
-uut: opt_imp port map (clk=>clk_tb, rst=> rst_tb, a=>a_tb, P_0=>P_0_tb, P_1=>P_1_tb, P_f=>P_f_tb);
+begin
+uut: equalizing_delays port map (clk=>clk_tb, rst=>rst_tb, a=>a_tb, P_0=>P_0_tb, P_1=>P_1_tb, P_f=>P_f_tb);
 
 process(clk_tb)
 begin
     if (rising_edge(clk_tb)) then
-        if (count = 119) then
-             count <= 0;
-        else
+        if (count=119) then
+            count <= 0;
+         else
             count <= count + 1;
+         end if;
+     end if;
+
+end process;
+
+
+process (clk_tb) --counter to delay p1 64 clock cycles
+begin
+
+    if (rising_edge(clk_tb) and flag='0') then
+        delay_count <= delay_count + 1;
+          if (delay_count=63) then
+            flag <= '1';
+          end if;
+    end if;
+
+end process;
+
+
+process (clk_tb) --counter for going through p1
+begin
+    if (rising_edge(clk_tb)) then
+        if (flag='1') then
+            if (delay_count_p1=119) then
+                delay_count_p1<=0;
+             else
+                delay_count_p1 <= delay_count_p1+1;
+             end if;
         end if;
     end if;
+            
 end process;
 
 process (clk_tb)
 begin
     if (rising_edge(clk_tb)) then
-        if (count_s = 239) then
-            switch <= not switch;
-            count_s <= 0;
-        else
-            count_s <= count_s + 1;
-        end if;
+
+            if (count_s = 239) then
+                switch <= not switch;
+                count_s <= 0;
+            else
+                count_s <= count_s + 1;
+            end if;
+
     end if;
+
 end process;
 
 process (clk_tb)
@@ -80,21 +139,26 @@ variable sin_wave_a_half: data_array:=(0,3,6,10,13,16,19,22,26,29,32,34,37,40,42
 -56,-54,-52,-50,-48,-46,-43,-41,-38,-35,-32,-30,-27,-23,-20,-17,-14,-11,-7,-4);
 begin
 if (rising_edge(clk_tb)) then
-    P_1_tb <= std_logic_vector(to_signed(sin_wave_a_half(count),8));
+    if (flag='1') then
+        P_1_tb <= std_logic_vector(to_signed(sin_wave_a_half(delay_count_p1),8));
+    end if;
 end if;
 end process;
+
 
 process(clk_tb)
 begin
     if (rising_edge(clk_tb)) then
-        if (switch = '1') then
-            a_tb <= "01111111"; --alpha = 127
-        else
-            a_tb <= (others => '0'); --alpha = 0
-         end if;
+        
+            if (switch = '1') then
+                a_tb <= "01111111"; --alpha = 127
+            else
+                a_tb <= (others => '0'); --alpha = 0
+             end if;
+     
     end if;
-
 end process;
+
 
 process
 begin
@@ -103,10 +167,9 @@ rst_tb<='1';
 wait for 6.25ns;
 rst_tb<='0';
 wait;
+
 end process;
 
-
--- clock running at 40 MHz -> DSP slice at 80 MHz 
 process
 begin
 clk_tb<='0';
@@ -114,4 +177,5 @@ wait for 12.5ns;
 clk_tb<='1';
 wait for 12.5ns;
 end process;
+
 end Behavioral;
