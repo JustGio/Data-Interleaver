@@ -29,6 +29,6 @@ To get the design to only use 1 DSP block, the clock wizard from the IP catalog 
 ### Results for Implementation of Optimized design when delaying an input using SRL components  
 #### Synthesis and waveform for delayed design
 ![Delayed](img/delayed_wav.PNG)  
-![Delayed]](img/delayed_slice_logic.png)  
+![Delayed](img/delayed_slice_logic.png)  
 ![Delayed](img/delayed_synthesis.png)  
 ![Delayed](img/delayed_dsp.png)  
