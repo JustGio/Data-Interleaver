@@ -8,13 +8,13 @@ The equation that is used for the design is: P_f = a * P_0 + (1 - a) * P_1. P_0 
 ### Results for Direct Implementation
 #### Here both no DSP blocks and using multiple DSP block implementations are shown.
 ![Direct Implementation](img/direct_imp_sim.PNG)  
-##### Implementation using no DSP  
+### Implementation using no DSP  
 ![DI](img/direct_imp_no_dsp.PNG)  
 ![DI](img/no_dsp+dsp.PNG)  
 ![DI](img/slice_logic_dist_no_dsp.PNG)  
 ![DI](img/slice_logic_no_dsp.PNG)  
 ![DI](img/utilization_no_dsp.PNG)  
-#### Implementation using DSP blocks  
+### Implementation using DSP blocks  
 ![DI](img/direct_imp_synthesis_schem.PNG) 
 1[DI](img/direct_imp_utilization.PNG)  
 ![DI](img/direct_imp_palce_report_dsp.PNG)  
