@@ -16,8 +16,8 @@ The equation that is used for the design is: P_f = a * P_0 + (1 - a) * P_1. P_0 
 ![DI](img/utilization_no_dsp.PNG)  
 ### Implementation using DSP blocks  
 ![DI](img/direct_imp_synthesis_schem.PNG) 
-1[DI](img/direct_imp_utilization.PNG)  
-![DI](img/direct_imp_palce_report_dsp.PNG)  
+![DI](img/direct_imp_utilization.PNG)  
+![DI](img/direct_imp_place_report_dsp.PNG)  
 ### Results for Optimizing Design with DSP blocks to only use 1 DSP block
 #### Implementation changing design from using 2 DSP blocks to 1
 ![OI](img/optimized_sim.PNG)  
