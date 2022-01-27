@@ -20,7 +20,7 @@ The equation that is used for the design is: P_f = a * P_0 + (1 - a) * P_1. P_0 
 ![DI](img/direct_imp_place_report_dsp.PNG)  
 ### Results for Optimizing Design with DSP blocks to only use 1 DSP block
 #### Implementation changing design from using 2 DSP blocks to 1
-##### To get the design to only use 1 DSP block, the clock wizard from the IP catalog is used in order to generate a clock that is 2x the clock speed. The 2x clock will be used for the DSP block. (In this design: 40 MHz was used in order to 2x the clock to 80 MHz for the DSP block)
+To get the design to only use 1 DSP block, the clock wizard from the IP catalog is used in order to generate a clock that is 2x the clock speed. The 2x clock will be used for the DSP block. In this design: 40 MHz is used in order to 2x the clock to 80 MHz for the DSP block.
 ![OI](img/optimized_sim.PNG)  
 ![OI](img/optimized_dsp.PNG)  
 ![OI](img/optimized_report_lut1.PNG)  
