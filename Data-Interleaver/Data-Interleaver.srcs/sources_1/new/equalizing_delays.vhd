@@ -35,7 +35,7 @@ use ieee.std_logic_unsigned.all;
 entity equalizing_delays is
     Port ( clk: in std_logic;
          rst: in std_logic;
-         a: in std_logic_vector(7 downto 0):="00000001";
+         a: in std_logic_vector(7 downto 0);
          P_0: in std_logic_vector(7 downto 0);
          P_1: in std_logic_vector(7 downto 0);
          P_f: out std_logic_vector(16 downto 0)
@@ -66,11 +66,11 @@ END COMPONENT;
 
 
 --clock manager outputs
-signal clk_1x : std_logic := '0';
-signal clk_2x : std_logic := '0';
+signal clk_1x: std_logic := '0';
+signal clk_2x: std_logic := '0';
 
 --controlled under clk_1x
-signal mux1 : std_logic := '0';
+signal mux1: std_logic := '0';
 signal s0: std_logic_vector(7 downto 0);
 signal s1: std_logic_vector(7 downto 0);
 signal a_reg: std_logic_vector(7 downto 0);
@@ -79,12 +79,12 @@ signal a0: std_logic_vector(7 downto 0);
 signal b0: std_logic_vector(7 downto 0);
 
 --controlled under clk_2x
-signal mux2 : std_logic := '0';
-signal mult_reg : std_logic_vector(15 downto 0);
-signal add_reg  : std_logic_vector(16 downto 0);
-signal out_reg  : std_logic_vector(16 downto 0);
-signal a_ff        : std_logic_vector(7 downto 0);
-signal b_ff        : std_logic_vector(7 downto 0);
+signal mux2: std_logic := '0';
+signal mult_reg: std_logic_vector(15 downto 0);
+signal add_reg: std_logic_vector(16 downto 0);
+signal out_reg: std_logic_vector(16 downto 0);
+signal a_ff: std_logic_vector(7 downto 0);
+signal b_ff: std_logic_vector(7 downto 0);
 signal p_0_delayed: std_logic_vector(7 downto 0):=(others=>'0');
 signal locked: std_logic:='1';
 
